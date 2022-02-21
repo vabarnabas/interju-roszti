@@ -10,7 +10,7 @@ const Navbar = () => {
       </div>
       <div className="">
         <button className="flex items-center justify-center py-0.5 px-1 text-emerald-500 hover:text-emerald-600">
-          <IoLogIn /> Belépés
+          <IoLogIn className="mr-0.5" /> Belépés
         </button>
       </div>
     </div>
