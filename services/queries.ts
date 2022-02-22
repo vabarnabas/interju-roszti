@@ -4,6 +4,7 @@ export const queryAllApplicants = `
       nodes {
         id
         name
+        arrival
       }
     }
   }

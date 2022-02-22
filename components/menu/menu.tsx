@@ -9,14 +9,14 @@ const Menu = () => {
         description={
           "Itt találhatod meg az interjúk pontos időbeosztását és itt is tudod módosítani őket."
         }
-        link="/scheduler"
+        link="/applicants"
       />
       <MenuTile
         title={"Értékelés"}
         description={
           "Itt tudod értékelni az egyes jelentkezőket, illetve az adatokat is innen tudod letölteni."
         }
-        link="/rate"
+        link="/review"
       />
     </div>
   )
