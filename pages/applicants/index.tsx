@@ -23,7 +23,7 @@ const Applicants = () => {
     arrival: "",
     formurl: "",
   })
-  const [result, reexecuteQuery] = useQuery({
+  const [result, reExecuteQuery] = useQuery({
     query: queryAllApplicants,
   })
 
@@ -35,12 +35,15 @@ const Applicants = () => {
         <EditForm
           setter={(showEdit) => setShowEdit(showEdit)}
           applicant={selectedEdit}
+          resetter={() =>
+            reExecuteQuery({ requestPolicy: "cache-and-network" })
+          }
         />
       )}
       {fetching ? (
         <Spinner />
       ) : (
-        <div className="grid md:grid-cols-4">
+        <div className="grid md:grid-cols-3">
           {data &&
             data.applicants_aggregate.nodes.map((item: Applicant) => (
               <div

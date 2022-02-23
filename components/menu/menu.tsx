@@ -5,9 +5,9 @@ const Menu = () => {
   return (
     <div className="grid gap-x-16 gap-y-8 sm:grid-cols-2">
       <MenuTile
-        title={"Időpontok"}
+        title={"Jelentkezők"}
         description={
-          "Itt találhatod meg az interjúk pontos időbeosztását és itt is tudod módosítani őket."
+          "Itt találhatod meg az interjúkra jelentkezőket és itt is tudod módosítani őket."
         }
         link="/applicants"
       />
