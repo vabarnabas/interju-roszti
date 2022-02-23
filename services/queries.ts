@@ -5,6 +5,7 @@ export const queryAllApplicants = `
         id
         name
         arrival
+        formurl
       }
     }
   }
