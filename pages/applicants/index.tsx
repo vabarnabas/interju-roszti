@@ -3,6 +3,7 @@ import Layout from "../../components/layout"
 import { useQuery } from "urql"
 import { queryAllApplicants } from "../../services/queries"
 import Spinner from "../../components/spinner/spinner"
+import { format } from "date-fns"
 
 interface Applicant {
   id: string
@@ -32,7 +33,9 @@ const Applicants = () => {
                 <p className="text-lg font-bold text-emerald-500">
                   {item.name}
                 </p>
-                <p className="">{item.arrival}</p>
+                <p className="mt-1 text-sm">
+                  {format(new Date(item.arrival), "yyyy.MM.dd hh:mm")}
+                </p>
               </div>
             ))}
         </div>
