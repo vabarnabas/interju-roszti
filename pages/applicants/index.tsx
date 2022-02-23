@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Layout from "../../components/layout"
 import { useQuery } from "urql"
 import { queryAllApplicants } from "../../services/queries"
@@ -6,6 +6,7 @@ import Spinner from "../../components/spinner/spinner"
 import { format } from "date-fns"
 import { HiExternalLink } from "react-icons/hi"
 import { MdEdit } from "react-icons/md"
+import EditForm from "../../components/edit-form/edit-form"
 
 interface Applicant {
   id: string
@@ -15,6 +16,13 @@ interface Applicant {
 }
 
 const Applicants = () => {
+  const [showEdit, setShowEdit] = useState(false)
+  const [selectedEdit, setSelectedEdit] = useState<Applicant>({
+    id: "",
+    name: "",
+    arrival: "",
+    formurl: "",
+  })
   const [result, reexecuteQuery] = useQuery({
     query: queryAllApplicants,
   })
@@ -23,6 +31,12 @@ const Applicants = () => {
 
   return (
     <Layout>
+      {showEdit && (
+        <EditForm
+          setter={(showEdit) => setShowEdit(showEdit)}
+          applicant={selectedEdit}
+        />
+      )}
       {fetching ? (
         <Spinner />
       ) : (
@@ -37,17 +51,20 @@ const Applicants = () => {
                   <p className="text-lg font-bold text-emerald-500">
                     {item.name}
                   </p>
-                  <p className="mt-0.5 text-sm">
+                  <p className="text-sm">
                     {format(new Date(item.arrival), "yyyy.MM.dd hh:mm")}
                   </p>
                 </div>
-                <div className="ml-6 flex items-center justify-center space-x-2">
+                <div className="ml-6 flex items-center justify-center space-x-3">
                   <HiExternalLink
                     onClick={() => window.open(item.formurl, "_blank")}
                     className="text-xl hover:text-emerald-500"
                   />
                   <MdEdit
-                    onClick={() => window.open(item.formurl, "_blank")}
+                    onClick={() => {
+                      setSelectedEdit(item)
+                      setShowEdit(true)
+                    }}
                     className="text-xl hover:text-emerald-500"
                   />
                 </div>

@@ -3,3 +3,10 @@ export interface MenuTileProps {
   description: string
   link: string
 }
+
+export interface Applicant {
+  id: string
+  name: string
+  arrival: string
+  formurl: string
+}
