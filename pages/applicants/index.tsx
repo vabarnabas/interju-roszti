@@ -31,21 +31,23 @@ const Applicants = () => {
 
   return (
     <Layout>
-      <button
-        onClick={() => {
-          setEditMode(false)
-          setSelectedEdit({
-            arrival: "",
-            name: "",
-            id: "",
-            formurl: "",
-          })
-          setShowEdit(true)
-        }}
-        className="absolute bottom-6 flex aspect-square h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-2xl text-white hover:bg-emerald-600"
-      >
-        <HiPlusSm />
-      </button>
+      {!fetching && data && (
+        <button
+          onClick={() => {
+            setEditMode(false)
+            setSelectedEdit({
+              arrival: "",
+              name: "",
+              id: "",
+              formurl: "",
+            })
+            setShowEdit(true)
+          }}
+          className="absolute bottom-6 flex aspect-square h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-2xl text-white hover:bg-emerald-600"
+        >
+          <HiPlusSm />
+        </button>
+      )}
       {showEdit && (
         <EditForm
           mode={editMode ? "edit" : "create"}
