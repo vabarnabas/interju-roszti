@@ -3,7 +3,7 @@ import MenuTile from "./menu-tile"
 
 const Menu = () => {
   return (
-    <div className="grid h-full w-full gap-x-16 gap-y-8 sm:grid-cols-2">
+    <div className="grid place-items-center gap-x-16 gap-y-8 sm:grid-cols-2">
       <MenuTile
         title={"Jelentkezők"}
         description={
