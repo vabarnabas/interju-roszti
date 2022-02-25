@@ -10,7 +10,7 @@ mutation UpdateApplicant($id: uuid = "", $_set: applicants_set_input = {arrival:
 `
 
 export const mutationCreateApplicant = `
-mutation CreateApplicant($object: applicants_insert_input = {}) {
+mutation MyMutation($object: applicants_insert_input = {arrival: "", formurl: "", id: "", name: ""}) {
   insert_applicants_one(object: $object) {
     id
   }

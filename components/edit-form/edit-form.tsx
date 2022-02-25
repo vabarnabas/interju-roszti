@@ -3,6 +3,7 @@ import { HiX, HiIdentification, HiCalendar } from "react-icons/hi"
 import { Applicant } from "../../services/props"
 import { BiLink } from "react-icons/bi"
 import { BsFillKeyFill } from "react-icons/bs"
+import { MdDelete } from "react-icons/md"
 import { useMutation } from "urql"
 import {
   mutationCreateApplicant,
@@ -32,8 +33,12 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
     e.preventDefault()
     try {
       createApplicant({
-        id,
-        _set: { arrival: editArrival, formurl: editFormUrl, name: editName },
+        object: {
+          arrival: editArrival,
+          formurl: editFormUrl,
+          name: editName,
+          id: createId,
+        },
       })
     } finally {
       resetter()
@@ -66,7 +71,9 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
         className="w relative rounded-md border bg-slate-50 p-4"
       >
         <div className="flex items-center justify-between">
-          <p className=" text-sm font-semibold">Szerkesztés</p>
+          <p className=" text-sm font-semibold">
+            {mode === "create" ? "Hozzáadás" : "Szerkesztés"}
+          </p>
           <HiX
             onClick={() => setter(false)}
             className=" cursor-pointer hover:text-slate-500"
@@ -114,9 +121,16 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
             />
           </div>
         </div>
-        <button className="mt-5 w-full rounded-md bg-emerald-500 px-24 py-1.5 text-sm text-white hover:bg-emerald-600">
-          Szerkesztés
-        </button>
+        <div className="mt-5 flex w-full items-center justify-center space-x-2 text-white">
+          <button className="rounded-md bg-emerald-500 px-24 py-1.5 text-sm hover:bg-emerald-600">
+            Tovább
+          </button>
+          {/* {mode === "edit" && (
+            <button className="rounded-md bg-rose-500 py-1.5 px-3">
+              <MdDelete className="text-xl" />
+            </button>
+          )} */}
+        </div>
       </form>
     </div>
   )

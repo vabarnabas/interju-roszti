@@ -60,7 +60,7 @@ const Applicants = () => {
       {fetching ? (
         <Spinner />
       ) : (
-        <div className="grid w-full md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid w-full gap-4 md:grid-cols-3 lg:grid-cols-4">
           {data &&
             data.applicants_aggregate.nodes.map(
               (item: Applicant, id: number) => (
