@@ -4,7 +4,10 @@ import { Applicant } from "../../services/props"
 import { BiLink } from "react-icons/bi"
 import { BsFillKeyFill } from "react-icons/bs"
 import { useMutation } from "urql"
-import { mutationUpdateApplicant } from "../../services/mutations"
+import {
+  mutationCreateApplicant,
+  mutationUpdateApplicant,
+} from "../../services/mutations"
 import { v4 as uuidv4 } from "uuid"
 
 interface Props {
@@ -16,15 +19,29 @@ interface Props {
 
 const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const [, updateApplicant] = useMutation(mutationUpdateApplicant)
-  const [, createApplicant] = useMutation(mutationUpdateApplicant)
+  const [, createApplicant] = useMutation(mutationCreateApplicant)
 
   const { name, id, formurl, arrival } = applicant || {}
 
   const [editName, setEditName] = useState<string>(name || "")
   const [editFormUrl, setEditFormUrl] = useState<string>(formurl || "")
   const [editArrival, setEditArrival] = useState<string>(arrival || "")
+  const [createId] = useState<string>(id || uuidv4())
 
-  const onFormSubmit = async (e: SyntheticEvent) => {
+  const onFormSubmitWhenCreate = async (e: SyntheticEvent) => {
+    e.preventDefault()
+    try {
+      createApplicant({
+        id,
+        _set: { arrival: editArrival, formurl: editFormUrl, name: editName },
+      })
+    } finally {
+      resetter()
+      setter(false)
+    }
+  }
+
+  const onFormSubmitWhenUpdate = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
       updateApplicant({
@@ -40,7 +57,11 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
       <form
-        onSubmit={onFormSubmit}
+        onSubmit={(e) => {
+          mode === "create"
+            ? onFormSubmitWhenCreate(e)
+            : onFormSubmitWhenUpdate(e)
+        }}
         action=""
         className="w relative rounded-md border bg-slate-50 p-4"
       >
@@ -86,7 +107,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
           <div className="relative flex items-center justify-center">
             <BsFillKeyFill className="absolute left-2 text-slate-500" />
             <input
-              value={id}
+              value={id || createId}
               type="text"
               className="w-full rounded border bg-slate-200 py-1 pl-8 pr-2 text-sm outline-none focus:border-emerald-500"
               disabled
