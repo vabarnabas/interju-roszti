@@ -3,7 +3,7 @@ import { IoLogIn } from "react-icons/io5"
 
 const Navbar = () => {
   return (
-    <div className="fixed top-0 left-0 flex h-12 w-full items-center justify-between border-b bg-slate-50 px-6">
+    <div className="fixed top-0 left-0 flex h-14 w-full items-center justify-between border-b bg-slate-50 px-6">
       <Link href="/">
         <div className="flex cursor-pointer select-none items-baseline justify-center font-semibold text-slate-600">
           <p className="">Interjú</p>

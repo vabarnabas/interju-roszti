@@ -5,21 +5,24 @@ import { BiLink } from "react-icons/bi"
 import { BsFillKeyFill } from "react-icons/bs"
 import { useMutation } from "urql"
 import { mutationUpdateApplicant } from "../../services/mutations"
+import { v4 as uuidv4 } from "uuid"
 
 interface Props {
-  applicant: Applicant
+  applicant?: Applicant
+  mode: "create" | "edit"
   setter: (open: boolean) => void
   resetter: () => void
 }
 
-const EditForm: React.FC<Props> = ({ applicant, setter, resetter }) => {
+const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const [, updateApplicant] = useMutation(mutationUpdateApplicant)
+  const [, createApplicant] = useMutation(mutationUpdateApplicant)
 
-  const { name, id, formurl, arrival } = applicant
+  const { name, id, formurl, arrival } = applicant || {}
 
-  const [editName, setEditName] = useState<string>(name)
-  const [editFormUrl, setEditFormUrl] = useState<string>(formurl)
-  const [editArrival, setEditArrival] = useState<string>(arrival)
+  const [editName, setEditName] = useState<string>(name || "")
+  const [editFormUrl, setEditFormUrl] = useState<string>(formurl || "")
+  const [editArrival, setEditArrival] = useState<string>(arrival || "")
 
   const onFormSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
