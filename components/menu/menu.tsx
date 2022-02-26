@@ -16,7 +16,7 @@ const Menu = () => {
         description={
           "Itt tudod értékelni az egyes jelentkezőket, illetve az adatokat is innen tudod letölteni."
         }
-        link="/review"
+        link="/reviews"
       />
     </div>
   )

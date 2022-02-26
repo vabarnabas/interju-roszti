@@ -32,7 +32,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const onFormSubmitWhenCreate = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
-      createApplicant({
+      await createApplicant({
         object: {
           arrival: editArrival,
           formurl: editFormUrl,
@@ -49,7 +49,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const onFormSubmitWhenUpdate = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
-      updateApplicant({
+      await updateApplicant({
         id,
         _set: { arrival: editArrival, formurl: editFormUrl, name: editName },
       })
@@ -68,7 +68,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
             : onFormSubmitWhenUpdate(e)
         }}
         action=""
-        className="w relative rounded-md border bg-slate-50 p-4"
+        className="relative grid rounded-md border bg-slate-50 p-4"
       >
         <div className="flex items-center justify-between">
           <p className=" text-sm font-semibold">
@@ -125,11 +125,11 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
           <button className="rounded-md bg-emerald-500 px-24 py-1.5 text-sm hover:bg-emerald-600">
             Tovább
           </button>
-          {/* {mode === "edit" && (
+          {mode === "edit" && (
             <button className="rounded-md bg-rose-500 py-1.5 px-3">
               <MdDelete className="text-xl" />
             </button>
-          )} */}
+          )}
         </div>
       </form>
     </div>
