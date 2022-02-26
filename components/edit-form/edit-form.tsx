@@ -12,6 +12,7 @@ import {
 } from "../../services/mutations"
 import { v4 as uuidv4 } from "uuid"
 import Spinner from "../spinner/spinner"
+import { format } from "date-fns"
 
 interface Props {
   applicant?: Applicant
@@ -40,7 +41,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
       setLoading(true)
       await createApplicant({
         object: {
-          arrival: editArrival,
+          arrival: new Date(editArrival),
           formurl: editFormUrl,
           name: editName,
           id: createId,
@@ -59,7 +60,11 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
       setLoading(true)
       await updateApplicant({
         id,
-        _set: { arrival: editArrival, formurl: editFormUrl, name: editName },
+        _set: {
+          arrival: new Date(editArrival),
+          formurl: editFormUrl,
+          name: editName,
+        },
       })
     } finally {
       resetter()
@@ -128,7 +133,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
         <div className="relative flex items-center justify-center">
           <HiCalendar className="absolute left-2 text-slate-500 dark:text-slate-200" />
           <input
-            placeholder="yyyy-mm-ddThh:mm"
+            placeholder="Érkezés"
             value={editArrival}
             onChange={(e) => setEditArrival(e.target.value)}
             type="text"
