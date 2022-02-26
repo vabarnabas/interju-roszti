@@ -3,16 +3,10 @@ import Layout from "../../components/layout"
 import { useQuery } from "urql"
 import { queryAllApplicants } from "../../services/queries"
 import Spinner from "../../components/spinner/spinner"
-import { format } from "date-fns"
-import { HiExternalLink, HiPlusSm } from "react-icons/hi"
-import { MdEdit } from "react-icons/md"
+import { HiPlusSm } from "react-icons/hi"
 import EditForm from "../../components/edit-form/edit-form"
-interface Applicant {
-  id: string
-  name: string
-  arrival: string
-  formurl: string
-}
+import ApplicantCard from "../../components/applicant-card/applicant-card"
+import { Applicant } from "../../services/props"
 
 const Applicants = () => {
   const [showEdit, setShowEdit] = useState(false)
@@ -62,41 +56,19 @@ const Applicants = () => {
       {fetching ? (
         <Spinner />
       ) : (
-        <div className="grid w-full gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid w-full gap-4 border-inherit md:grid-cols-3 lg:grid-cols-4">
           {data &&
-            data.applicants_aggregate.nodes.map(
-              (item: Applicant, id: number) => (
-                <div
-                  key={item.id}
-                  className="flex w-full cursor-pointer items-center justify-between rounded-lg border px-4 py-3 hover:border-emerald-500"
-                >
-                  <div className="flex items-center justify-center">
-                    <div className="">
-                      <p className="text-lg font-bold text-emerald-500">
-                        {item.name}
-                      </p>
-                      <p className="text-sm">
-                        {format(new Date(item.arrival), "yyyy.MM.dd hh:mm")}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="ml-6 flex items-center justify-center space-x-3">
-                    <HiExternalLink
-                      onClick={() => window.open(item.formurl, "_blank")}
-                      className="text-xl hover:text-emerald-500"
-                    />
-                    <MdEdit
-                      onClick={() => {
-                        setEditMode(true)
-                        setSelectedEdit(item)
-                        setShowEdit(true)
-                      }}
-                      className="text-xl hover:text-emerald-500"
-                    />
-                  </div>
-                </div>
-              )
-            )}
+            data.applicants_aggregate.nodes.map((item: Applicant) => (
+              <ApplicantCard
+                applicant={item}
+                setEditMode={(editMode) => setEditMode(editMode)}
+                setSelectedEdit={(selectedEdit) =>
+                  setSelectedEdit(selectedEdit)
+                }
+                setShowEdit={(showEdit) => setShowEdit(showEdit)}
+                key={item.id}
+              />
+            ))}
         </div>
       )}
     </Layout>

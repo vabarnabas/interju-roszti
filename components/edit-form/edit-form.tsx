@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md"
 import { useMutation } from "urql"
 import {
   mutationCreateApplicant,
+  mutationDeleteApplicant,
   mutationUpdateApplicant,
 } from "../../services/mutations"
 import { v4 as uuidv4 } from "uuid"
@@ -21,6 +22,7 @@ interface Props {
 const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const [, updateApplicant] = useMutation(mutationUpdateApplicant)
   const [, createApplicant] = useMutation(mutationCreateApplicant)
+  const [, deleteApplicant] = useMutation(mutationDeleteApplicant)
 
   const { name, id, formurl, arrival } = applicant || {}
 
@@ -52,6 +54,18 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
       await updateApplicant({
         id,
         _set: { arrival: editArrival, formurl: editFormUrl, name: editName },
+      })
+    } finally {
+      resetter()
+      setter(false)
+    }
+  }
+
+  const onApplicantDelete = async (e: SyntheticEvent) => {
+    e.preventDefault()
+    try {
+      await deleteApplicant({
+        id,
       })
     } finally {
       resetter()
@@ -126,7 +140,10 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
             Tovább
           </button>
           {mode === "edit" && (
-            <button className="rounded-md bg-rose-500 py-1.5 px-3">
+            <button
+              onClick={(e) => onApplicantDelete(e)}
+              className="rounded-md bg-rose-500 py-1.5 px-3 hover:bg-rose-600"
+            >
               <MdDelete className="text-xl" />
             </button>
           )}

@@ -16,3 +16,11 @@ mutation CreateApplicants($object: applicants_insert_input = {arrival: "", formu
   }
 }
 `
+
+export const mutationDeleteApplicant = `
+mutation DeleteApplicant($id: uuid = "") {
+  delete_applicants_by_pk(id: $id) {
+    id
+  }
+}
+`
