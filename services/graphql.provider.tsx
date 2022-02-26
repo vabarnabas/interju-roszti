@@ -3,7 +3,7 @@ import { Provider, Client } from "urql"
 
 const GraphqlProvider: React.FC = ({ children }) => {
   const client = new Client({
-    url: "https://prepared-lark-38.hasura.app/v1/graphql",
+    url: `${process.env.NEXT_PUBLIC_API_URL}graphql`,
     fetchOptions: {
       headers: {
         "x-hasura-admin-secret":
