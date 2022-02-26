@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  .form-input {
+    @apply w-full rounded border bg-transparent py-1 pl-8 pr-2 text-sm outline-none focus:border-emerald-500 dark:border-zinc-600;
+  }
+}
+
 html,
 body {
   padding: 0;

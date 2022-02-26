@@ -11,6 +11,7 @@ import {
   mutationUpdateApplicant,
 } from "../../services/mutations"
 import { v4 as uuidv4 } from "uuid"
+import Spinner from "../spinner/spinner"
 
 interface Props {
   applicant?: Applicant
@@ -26,6 +27,8 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
 
   const { name, id, formurl, arrival } = applicant || {}
 
+  const [loading, setLoading] = useState(false)
+
   const [editName, setEditName] = useState<string>(name || "")
   const [editFormUrl, setEditFormUrl] = useState<string>(formurl || "")
   const [editArrival, setEditArrival] = useState<string>(arrival || "")
@@ -34,6 +37,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const onFormSubmitWhenCreate = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
+      setLoading(true)
       await createApplicant({
         object: {
           arrival: editArrival,
@@ -44,6 +48,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
       })
     } finally {
       resetter()
+      setLoading(false)
       setter(false)
     }
   }
@@ -51,12 +56,14 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const onFormSubmitWhenUpdate = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
+      setLoading(true)
       await updateApplicant({
         id,
         _set: { arrival: editArrival, formurl: editFormUrl, name: editName },
       })
     } finally {
       resetter()
+      setLoading(false)
       setter(false)
     }
   }
@@ -64,17 +71,19 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   const onApplicantDelete = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
+      setLoading(true)
       await deleteApplicant({
         id,
       })
     } finally {
       resetter()
+      setLoading(false)
       setter(false)
     }
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
+    <div className="fixed inset-0 flex items-center justify-center border-inherit bg-black bg-opacity-30">
       <form
         onSubmit={(e) => {
           mode === "create"
@@ -82,7 +91,7 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
             : onFormSubmitWhenUpdate(e)
         }}
         action=""
-        className="relative grid rounded-md border bg-slate-50 p-4"
+        className="relative grid overflow-hidden rounded-md border border-inherit bg-slate-50 p-4 dark:border-transparent dark:bg-medium-gray"
       >
         <div className="flex items-center justify-between">
           <p className=" text-sm font-semibold">
@@ -90,47 +99,50 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
           </p>
           <HiX
             onClick={() => setter(false)}
-            className=" cursor-pointer hover:text-slate-500"
+            className=" cursor-pointer hover:text-slate-500 dark:hover:text-slate-400"
           />
         </div>
         <p className="mb-1 mt-3 pl-1 text-xs font-light">Név</p>
         <div className="relative flex items-center justify-center">
-          <HiIdentification className="absolute left-2 text-slate-500" />
+          <HiIdentification className="absolute left-2 text-slate-500 dark:text-slate-200" />
           <input
+            placeholder="Név"
             value={editName}
             onChange={(e) => setEditName(e.target.value)}
             type="text"
-            className="w-full rounded border bg-slate-50 py-1 pl-8 pr-2 text-sm outline-none focus:border-emerald-500"
+            className="form-input"
           />
         </div>
         <p className="mt-3 mb-1 pl-1 text-xs font-light">Form Link</p>
         <div className="relative flex items-center justify-center">
-          <BiLink className="absolute left-2 text-slate-500" />
+          <BiLink className="absolute left-2 text-slate-500 dark:text-slate-200" />
           <input
+            placeholder="Form Link"
             value={editFormUrl}
             onChange={(e) => setEditFormUrl(e.target.value)}
             type="text"
-            className="w-full rounded border bg-slate-50 py-1 pl-8 text-sm outline-none focus:border-emerald-500"
+            className="form-input"
           />
         </div>
         <p className="mt-3 mb-1 pl-1 text-xs font-light">Érkezés</p>
         <div className="relative flex items-center justify-center">
-          <HiCalendar className="absolute left-2 text-slate-500" />
+          <HiCalendar className="absolute left-2 text-slate-500 dark:text-slate-200" />
           <input
+            placeholder="yyyy-mm-ddThh:mm"
             value={editArrival}
             onChange={(e) => setEditArrival(e.target.value)}
             type="text"
-            className="w-full rounded border bg-slate-50 py-1 pl-8 pr-2 text-sm outline-none focus:border-emerald-500"
+            className="form-input"
           />
         </div>
         <div className="">
           <p className="mt-3 mb-1 pl-1 text-xs font-light">ID</p>
           <div className="relative flex items-center justify-center">
-            <BsFillKeyFill className="absolute left-2 text-slate-500" />
+            <BsFillKeyFill className="absolute left-2 text-slate-500 dark:text-slate-200" />
             <input
               value={id || createId}
               type="text"
-              className="w-full rounded border bg-slate-200 py-1 pl-8 pr-2 text-sm outline-none focus:border-emerald-500"
+              className="form-input select-none border-none bg-slate-200 dark:bg-zinc-800"
               disabled
             />
           </div>
@@ -148,6 +160,11 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
             </button>
           )}
         </div>
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-dark-gray/60">
+            <Spinner />
+          </div>
+        )}
       </form>
     </div>
   )

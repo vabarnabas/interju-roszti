@@ -7,6 +7,8 @@ import { HiPlusSm } from "react-icons/hi"
 import EditForm from "../../components/edit-form/edit-form"
 import ApplicantCard from "../../components/applicant-card/applicant-card"
 import { Applicant } from "../../services/props"
+import searchResult from "../../public/images/search_result.svg"
+import Image from "next/image"
 
 const Applicants = () => {
   const [showEdit, setShowEdit] = useState(false)
@@ -22,6 +24,8 @@ const Applicants = () => {
   })
 
   const { data, fetching, error } = result
+
+  console.log(data)
 
   return (
     <Layout>
@@ -42,22 +46,12 @@ const Applicants = () => {
           <HiPlusSm />
         </button>
       )}
-      {showEdit && (
-        <EditForm
-          mode={editMode ? "edit" : "create"}
-          setter={(showEdit) => setShowEdit(showEdit)}
-          applicant={selectedEdit}
-          resetter={() =>
-            reExecuteQuery({ requestPolicy: "cache-and-network" })
-          }
-        />
-      )}
 
       {fetching ? (
         <Spinner />
       ) : (
         <div className="grid w-full gap-4 border-inherit md:grid-cols-3 lg:grid-cols-4">
-          {data &&
+          {data && data.applicants_aggregate.nodes.length > 0 ? (
             data.applicants_aggregate.nodes.map((item: Applicant) => (
               <ApplicantCard
                 applicant={item}
@@ -68,8 +62,32 @@ const Applicants = () => {
                 setShowEdit={(showEdit) => setShowEdit(showEdit)}
                 key={item.id}
               />
-            ))}
+            ))
+          ) : (
+            <div className="relative col-span-4 flex w-min flex-col items-center justify-center justify-self-center">
+              <div className="relative h-48 w-48">
+                <Image
+                  layout="fill"
+                  objectFit="contain"
+                  src="/images/search_result.svg"
+                />
+              </div>
+              <p className="mt-8 text-center text-sm font-semibold">
+                Úgy néz ki, nincsenek még jelentkezők feltöltve.
+              </p>
+            </div>
+          )}
         </div>
+      )}
+      {showEdit && (
+        <EditForm
+          mode={editMode ? "edit" : "create"}
+          setter={(showEdit) => setShowEdit(showEdit)}
+          applicant={selectedEdit}
+          resetter={() =>
+            reExecuteQuery({ requestPolicy: "cache-and-network" })
+          }
+        />
       )}
     </Layout>
   )

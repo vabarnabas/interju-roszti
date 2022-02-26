@@ -6,7 +6,7 @@ import { HiArrowSmRight } from "react-icons/hi"
 const MenuTile: React.FC<MenuTileProps> = ({ title, description, link }) => {
   return (
     <Link href={link}>
-      <div className="group flex aspect-square h-64 cursor-pointer select-none flex-col rounded-xl border border-transparent bg-medium-gray p-4 hover:border-emerald-500">
+      <div className="group flex aspect-square h-64 cursor-pointer select-none flex-col rounded-xl border p-4 hover:border-emerald-500 dark:border-transparent dark:bg-medium-gray">
         <p className="text-4xl font-bold text-emerald-500">{title}</p>
         <p className="mt-2">{description}</p>
         <p className="mt-auto flex items-center font-semibold text-emerald-500">

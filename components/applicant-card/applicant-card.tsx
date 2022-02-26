@@ -20,7 +20,7 @@ const ApplicantCard: React.FC<Props> = ({
   const { name, id, arrival, formurl } = applicant
 
   return (
-    <div className="flex w-full cursor-pointer items-center justify-between rounded-lg border border-transparent bg-medium-gray px-4 py-3 hover:border-emerald-500">
+    <div className="flex w-full cursor-pointer items-center justify-between rounded-lg border px-4 py-3 hover:border-emerald-500 dark:border-transparent dark:bg-medium-gray">
       <div className="flex items-center justify-center">
         <div className="">
           <p className="text-lg font-bold text-emerald-500">{name}</p>
