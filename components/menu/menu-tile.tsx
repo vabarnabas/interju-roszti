@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import { MenuTileProps } from "../../services/props"
+import { MenuTileProps } from "../../services/interfaces"
 import { HiArrowSmRight } from "react-icons/hi"
 
 const MenuTile: React.FC<MenuTileProps> = ({ title, description, link }) => {

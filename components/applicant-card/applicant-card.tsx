@@ -2,7 +2,7 @@ import React from "react"
 import { format } from "date-fns"
 import { HiExternalLink } from "react-icons/hi"
 import { MdEdit } from "react-icons/md"
-import { Applicant } from "../../services/props"
+import { Applicant } from "../../services/interfaces"
 
 interface Props {
   applicant: Applicant

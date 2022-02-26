@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from "react"
 import { HiX, HiIdentification, HiCalendar } from "react-icons/hi"
-import { Applicant } from "../../services/props"
+import { Applicant } from "../../services/interfaces"
 import { BiLink } from "react-icons/bi"
 import { BsFillKeyFill } from "react-icons/bs"
 import { MdDelete } from "react-icons/md"
@@ -12,7 +12,6 @@ import {
 } from "../../services/mutations"
 import { v4 as uuidv4 } from "uuid"
 import Spinner from "../spinner/spinner"
-import { format } from "date-fns"
 
 interface Props {
   applicant?: Applicant
@@ -21,7 +20,12 @@ interface Props {
   resetter: () => void
 }
 
-const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
+const ApplicantForm: React.FC<Props> = ({
+  applicant,
+  setter,
+  resetter,
+  mode,
+}) => {
   const [, updateApplicant] = useMutation(mutationUpdateApplicant)
   const [, createApplicant] = useMutation(mutationCreateApplicant)
   const [, deleteApplicant] = useMutation(mutationDeleteApplicant)
@@ -107,38 +111,47 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
             className=" cursor-pointer hover:text-slate-500 dark:hover:text-slate-400"
           />
         </div>
-        <p className="mb-1 mt-3 pl-1 text-xs font-light">Név</p>
-        <div className="relative flex items-center justify-center">
-          <HiIdentification className="absolute left-2 text-slate-500 dark:text-slate-200" />
-          <input
-            placeholder="Név"
-            value={editName}
-            onChange={(e) => setEditName(e.target.value)}
-            type="text"
-            className="form-input"
-          />
+        <div className="">
+          <p className="mb-1 mt-3 pl-1 text-xs font-light">Név</p>
+          <div className="relative flex items-center justify-center">
+            <HiIdentification className="absolute left-2 text-slate-500 dark:text-slate-200" />
+            <input
+              placeholder="Név"
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              type="text"
+              className="form-input"
+              required
+            />
+          </div>
         </div>
-        <p className="mt-3 mb-1 pl-1 text-xs font-light">Form Link</p>
-        <div className="relative flex items-center justify-center">
-          <BiLink className="absolute left-2 text-slate-500 dark:text-slate-200" />
-          <input
-            placeholder="Form Link"
-            value={editFormUrl}
-            onChange={(e) => setEditFormUrl(e.target.value)}
-            type="text"
-            className="form-input"
-          />
+        <div>
+          <p className="mt-3 mb-1 pl-1 text-xs font-light">Form Link</p>
+          <div className="relative flex items-center justify-center">
+            <BiLink className="absolute left-2 text-slate-500 dark:text-slate-200" />
+            <input
+              placeholder="Form Link"
+              value={editFormUrl}
+              onChange={(e) => setEditFormUrl(e.target.value)}
+              type="text"
+              className="form-input"
+              required
+            />
+          </div>
         </div>
-        <p className="mt-3 mb-1 pl-1 text-xs font-light">Érkezés</p>
-        <div className="relative flex items-center justify-center">
-          <HiCalendar className="absolute left-2 text-slate-500 dark:text-slate-200" />
-          <input
-            placeholder="Érkezés"
-            value={editArrival}
-            onChange={(e) => setEditArrival(e.target.value)}
-            type="text"
-            className="form-input"
-          />
+        <div className="">
+          <p className="mt-3 mb-1 pl-1 text-xs font-light">Érkezés</p>
+          <div className="relative flex items-center justify-center">
+            <HiCalendar className="absolute left-2 text-slate-500 dark:text-slate-200" />
+            <input
+              placeholder="Érkezés"
+              value={editArrival}
+              onChange={(e) => setEditArrival(e.target.value)}
+              type="text"
+              className="form-input"
+              required
+            />
+          </div>
         </div>
         <div className="">
           <p className="mt-3 mb-1 pl-1 text-xs font-light">ID</p>
@@ -147,13 +160,13 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
             <input
               value={id || createId}
               type="text"
-              className="form-input select-none border-none bg-slate-200 dark:bg-zinc-800"
+              className="form-input select-none border-transparent bg-slate-200 dark:bg-zinc-800"
               disabled
             />
           </div>
         </div>
         <div className="mt-5 flex w-full items-center justify-center space-x-2 text-white">
-          <button className="rounded-md bg-emerald-500 px-24 py-1.5 text-sm hover:bg-emerald-600">
+          <button className="w-full rounded-md bg-emerald-500 px-24 py-1.5 text-sm hover:bg-emerald-600 sm:w-auto">
             Tovább
           </button>
           {mode === "edit" && (
@@ -175,4 +188,4 @@ const EditForm: React.FC<Props> = ({ applicant, setter, resetter, mode }) => {
   )
 }
 
-export default EditForm
+export default ApplicantForm

@@ -1,38 +1,28 @@
-import React, { useState } from "react"
-import Layout from "../../components/layout"
-import { useQuery } from "urql"
-import { queryAllApplicants } from "../../services/queries"
-import Spinner from "../../components/spinner/spinner"
-import ApplicantForm from "../../components/applicant-form/applicant-form"
-import ApplicantCard from "../../components/applicant-card/applicant-card"
-import { Applicant } from "../../services/interfaces"
 import Image from "next/image"
+import React, { useState } from "react"
+import { HiPlusSm } from "react-icons/hi"
+import { useQuery } from "urql"
+import Layout from "../../components/layout"
 import PlusButton from "../../components/plus-button/plus-button"
+import ReviewForm from "../../components/review-form/review-form"
+import Spinner from "../../components/spinner/spinner"
+import { Review } from "../../services/interfaces"
+import { queryAllApplicantsWithReviews } from "../../services/queries"
 
-const Applicants = () => {
+const Reviews = () => {
   const [showEdit, setShowEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
-  const [selectedEdit, setSelectedEdit] = useState<Applicant>({
-    id: "",
-    name: "",
-    arrival: "",
-    formurl: "",
-  })
+  const [selectedEdit, setSelectedEdit] = useState<Review>()
 
   const [result, reExecuteQuery] = useQuery({
-    query: queryAllApplicants,
+    query: queryAllApplicantsWithReviews,
   })
 
   const { data, fetching, error } = result
 
   const onPlusButtonClick = () => {
     setEditMode(false)
-    setSelectedEdit({
-      arrival: "",
-      name: "",
-      id: "",
-      formurl: "",
-    })
+    // setSelectedEdit()
     setShowEdit(true)
   }
 
@@ -46,16 +36,8 @@ const Applicants = () => {
       ) : (
         <div className="grid w-full gap-4 border-inherit md:grid-cols-3 lg:grid-cols-4">
           {data && data.applicants_aggregate.nodes.length > 0 ? (
-            data.applicants_aggregate.nodes.map((item: Applicant) => (
-              <ApplicantCard
-                applicant={item}
-                setEditMode={(editMode) => setEditMode(editMode)}
-                setSelectedEdit={(selectedEdit) =>
-                  setSelectedEdit(selectedEdit)
-                }
-                setShowEdit={(showEdit) => setShowEdit(showEdit)}
-                key={item.id}
-              />
+            data.applicants_aggregate.nodes.map((item: any) => (
+              <div key={item.id} className=""></div>
             ))
           ) : (
             <div className="relative col-span-4 flex w-min flex-col items-center justify-center justify-self-center">
@@ -67,17 +49,17 @@ const Applicants = () => {
                 />
               </div>
               <p className="mt-8 text-center text-sm font-semibold">
-                Úgy néz ki, nincsenek még jelentkezők feltöltve.
+                Úgy néz ki, nincsenek még értékelések feltöltve.
               </p>
             </div>
           )}
         </div>
       )}
       {showEdit && (
-        <ApplicantForm
+        <ReviewForm
           mode={editMode ? "edit" : "create"}
           setter={(showEdit) => setShowEdit(showEdit)}
-          applicant={selectedEdit}
+          review={selectedEdit}
           resetter={() =>
             reExecuteQuery({ requestPolicy: "cache-and-network" })
           }
@@ -87,4 +69,4 @@ const Applicants = () => {
   )
 }
 
-export default Applicants
+export default Reviews
