@@ -25,7 +25,7 @@ const ApplicantCard: React.FC<Props> = ({
         <div className="">
           <p className="text-lg font-bold text-emerald-500">{name}</p>
           <p className="text-sm">
-            {format(new Date(arrival), "yyyy.MM.dd HH:mm")}
+            {format(new Date(arrival), "yyyy.MM.dd HH:mm" )}
           </p>
         </div>
       </div>

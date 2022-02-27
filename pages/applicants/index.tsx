@@ -44,7 +44,7 @@ const Applicants = () => {
       {fetching ? (
         <Spinner />
       ) : (
-        <div className="grid w-full gap-4 border-inherit md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid w-full gap-4 border-inherit py-6 md:grid-cols-3 md:py-0 lg:grid-cols-4">
           {data && data.applicants_aggregate.nodes.length > 0 ? (
             data.applicants_aggregate.nodes.map((item: Applicant) => (
               <ApplicantCard

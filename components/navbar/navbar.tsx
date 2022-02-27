@@ -98,7 +98,7 @@ const Navbar = () => {
         </div>
       )}
       {rosztiToken ? (
-        <p className="select-all text-sm text-emerald-500 hover:text-emerald-600">
+        <p className="select-all text-right text-xs text-emerald-500 hover:text-emerald-600">
           {rosztiToken}
         </p>
       ) : (
