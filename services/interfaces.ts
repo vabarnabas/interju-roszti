@@ -16,15 +16,16 @@ export interface Applicant {
 }
 
 export interface Review {
-  id: string
-  name: string
-  confidence: number
+  applicantid: string
   communication: number
-  phraseology: number
-  leadership: number
+  confidence: number
   creativity: number
-  problemsolving: number
+  leadership: number
   note: string
+  phraseology: number
+  problemsolving: number
+  reviewerid: string
+  id: string
 }
 
 export interface ApplicantsWithReview {

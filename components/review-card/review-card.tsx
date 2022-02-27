@@ -6,6 +6,8 @@ import {
   ApplicantsWithReview,
   Review,
 } from "../../services/interfaces"
+import { useQuery } from "urql"
+import { querySpecificReview } from "../../services/queries"
 
 interface Props {
   review: ApplicantsAggregateNode
@@ -20,7 +22,7 @@ const ReviewCard: React.FC<Props> = ({
   setSelectedEdit,
   setShowEdit,
 }) => {
-  const { name } = review || {}
+  const { name, id } = review || {}
 
   const {
     confidence,
@@ -30,6 +32,13 @@ const ReviewCard: React.FC<Props> = ({
     creativity,
     problemsolving,
   } = review.reviews_aggregate.aggregate.avg
+
+  const [specificReview, getSpecificReview] = useQuery({
+    query: querySpecificReview,
+    variables: { _eq: localStorage.getItem("rosztiToken"), _eq1: id },
+  })
+
+  const { data } = specificReview
 
   return (
     <div className="flex w-full cursor-pointer items-center justify-between rounded-lg border px-4 py-3 hover:border-emerald-500 dark:border-transparent dark:bg-medium-gray">
@@ -76,10 +85,15 @@ const ReviewCard: React.FC<Props> = ({
       </div>
       <div className="ml-6 flex items-center justify-center space-x-3">
         <AiTwotoneStar
-          onClick={() => {
-            setEditMode(false)
-            setSelectedEdit(review)
-            setShowEdit(true)
+          onClick={async () => {
+            try {
+              await getSpecificReview({ requestPolicy: "network-only" })
+              console.log(data)
+            } finally {
+              setEditMode(false)
+              setSelectedEdit(review)
+              setShowEdit(true)
+            }
           }}
           className="text-xl hover:text-emerald-500"
         />

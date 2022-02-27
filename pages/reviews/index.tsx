@@ -7,7 +7,7 @@ import RefreshButton from "../../components/refresh-button/refresh-button"
 import ReviewCard from "../../components/review-card/review-card"
 import ReviewForm from "../../components/review-form/review-form"
 import Spinner from "../../components/spinner/spinner"
-import { ApplicantsAggregateNode } from "../../services/interfaces"
+import { ApplicantsAggregateNode, Review } from "../../services/interfaces"
 import { queryAllApplicantsWithReviews } from "../../services/queries"
 
 const Reviews = () => {
@@ -68,7 +68,7 @@ const Reviews = () => {
         <ReviewForm
           mode={editMode ? "edit" : "create"}
           setter={(showEdit) => setShowEdit(showEdit)}
-          review={selectedEdit}
+          applicant={selectedEdit}
           resetter={() =>
             reExecuteQuery({ requestPolicy: "cache-and-network" })
           }

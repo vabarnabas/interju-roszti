@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from "react"
 import { HiX, HiIdentification } from "react-icons/hi"
-import { ApplicantsAggregateNode } from "../../services/interfaces"
+import { ApplicantsAggregateNode, Review } from "../../services/interfaces"
 import { BsFillKeyFill } from "react-icons/bs"
 import { MdDelete, MdLeaderboard, MdHowToVote } from "react-icons/md"
 import { RiStickyNoteFill } from "react-icons/ri"
@@ -14,25 +14,37 @@ import { v4 as uuidv4 } from "uuid"
 import Spinner from "../spinner/spinner"
 
 interface Props {
-  review?: ApplicantsAggregateNode
+  review?: Review
+  applicant?: {
+    name: string
+    id: string
+  }
   mode: "create" | "edit"
   setter: (open: boolean) => void
   resetter: () => void
 }
 
-const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
+const ReviewForm: React.FC<Props> = ({
+  review,
+  setter,
+  resetter,
+  mode,
+  applicant,
+}) => {
   const [, updateApplicant] = useMutation(mutationUpdateApplicant)
   const [, createReview] = useMutation(mutationCreateReview)
   const [, deleteApplicant] = useMutation(mutationDeleteApplicant)
 
-  const { name, id } = review || {}
+  const { name, id } = applicant || {}
 
   const [range] = useState({
     min: 1,
     max: 5,
   })
 
-  const [createId] = useState<string>(uuidv4())
+  console.log(review)
+
+  const [createId] = useState<string>(review?.id || uuidv4())
 
   const [loading, setLoading] = useState(false)
 
@@ -50,7 +62,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
     e.preventDefault()
     try {
       setLoading(true)
-      const response = await createReview({
+      await createReview({
         object: {
           id: createId,
           applicantid: id,
