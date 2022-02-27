@@ -49,23 +49,17 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
   const [editNote, setEditNote] = useState<string>(note || "")
   const [editVerdict, setEditVerdict] = useState<string>(verdict || "")
 
-  const [editConfidence, setEditConfidence] = useState<number>(
-    confidence || range.min
-  )
+  const [editConfidence, setEditConfidence] = useState<number>(confidence || 0)
   const [editCommunication, setEditCommunication] = useState<number>(
-    communication || range.min
+    communication || 0
   )
   const [editPhraseology, setEditPhraseology] = useState<number>(
-    phraseology || range.min
+    phraseology || 0
   )
-  const [editLeadership, setEditLeadership] = useState<number>(
-    leadership || range.min
-  )
-  const [editCreativity, setEditCreativity] = useState<number>(
-    creativity || range.min
-  )
+  const [editLeadership, setEditLeadership] = useState<number>(leadership || 0)
+  const [editCreativity, setEditCreativity] = useState<number>(creativity || 0)
   const [editProblemsolving, setEditProblemsolving] = useState<number>(
-    problemsolving || range.min
+    problemsolving || 0
   )
   const [createId] = useState<string>(id || uuidv4())
 
@@ -177,7 +171,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
             </div>
             <input
               type="number"
-              value={editConfidence}
+              value={editConfidence || ""}
               onChange={(e) =>
                 setEditConfidence(
                   Math.max(
@@ -199,7 +193,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
             </div>
             <input
               type="number"
-              value={editCommunication}
+              value={editCommunication || ""}
               onChange={(e) =>
                 setEditCommunication(
                   Math.max(
@@ -221,7 +215,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
             </div>
             <input
               type="number"
-              value={editPhraseology}
+              value={editPhraseology || ""}
               onChange={(e) =>
                 setEditPhraseology(
                   Math.max(
@@ -243,7 +237,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
             </div>
             <input
               type="number"
-              value={editLeadership}
+              value={editLeadership || ""}
               onChange={(e) =>
                 setEditLeadership(
                   Math.max(
@@ -265,7 +259,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
             </div>
             <input
               type="number"
-              value={editCreativity}
+              value={editCreativity || ""}
               onChange={(e) =>
                 setEditCreativity(
                   Math.max(
@@ -287,7 +281,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
             </div>
             <input
               type="number"
-              value={editProblemsolving}
+              value={editProblemsolving || ""}
               onChange={(e) =>
                 setEditProblemsolving(
                   Math.max(
@@ -301,7 +295,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
             />
           </div>
         </div>
-        <div>
+        <div className="col-span-2">
           <p className="mt-3 mb-1 pl-1 text-xs font-light">Komment</p>
           <div className="relative flex items-center justify-center">
             <div className="absolute left-2 text-slate-500 dark:text-slate-200">
@@ -312,22 +306,6 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
               value={editNote}
               onChange={(e) => setEditNote(e.target.value)}
               className="form-input"
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <p className="mt-3 mb-1 pl-1 text-xs font-light">Verdikt</p>
-          <div className="relative flex items-center justify-center">
-            <div className="absolute left-2 text-slate-500 dark:text-slate-200">
-              <MdHowToVote />
-            </div>
-            <input
-              type="text"
-              value={editVerdict}
-              onChange={(e) => setEditVerdict(e.target.value)}
-              className="form-input"
-              required
             />
           </div>
         </div>

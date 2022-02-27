@@ -49,7 +49,7 @@ const Reviews = () => {
                 />
               </div>
               <p className="mt-8 text-center text-sm font-semibold">
-                Úgy néz ki, nincsenek még értékelések feltöltve.
+                Úgy néz ki, nincsenek még jelentkezők feltöltve.
               </p>
             </div>
           )}
