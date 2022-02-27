@@ -160,7 +160,7 @@ const ApplicantForm: React.FC<Props> = ({
             <input
               value={id || createId}
               type="text"
-              className="form-input select-none border-transparent bg-slate-200 dark:bg-zinc-800"
+              className="form-input select-none bg-slate-200 dark:bg-zinc-800"
               disabled
             />
           </div>

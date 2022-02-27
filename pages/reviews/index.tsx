@@ -1,44 +1,53 @@
 import Image from "next/image"
 import React, { useState } from "react"
-import { HiPlusSm } from "react-icons/hi"
 import { useQuery } from "urql"
 import Layout from "../../components/layout"
 import PlusButton from "../../components/plus-button/plus-button"
+import RefreshButton from "../../components/refresh-button/refresh-button"
+import ReviewCard from "../../components/review-card/review-card"
 import ReviewForm from "../../components/review-form/review-form"
 import Spinner from "../../components/spinner/spinner"
-import { Review } from "../../services/interfaces"
+import { ApplicantsAggregateNode } from "../../services/interfaces"
 import { queryAllApplicantsWithReviews } from "../../services/queries"
 
 const Reviews = () => {
   const [showEdit, setShowEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
-  const [selectedEdit, setSelectedEdit] = useState<Review>()
+  const [selectedEdit, setSelectedEdit] = useState<ApplicantsAggregateNode>()
 
   const [result, reExecuteQuery] = useQuery({
     query: queryAllApplicantsWithReviews,
   })
 
-  const { data, fetching, error } = result
+  const { data, fetching } = result
 
-  const onPlusButtonClick = () => {
-    setEditMode(false)
-    // setSelectedEdit()
-    setShowEdit(true)
+  const onRefreshButtonClick = async () => {
+    await reExecuteQuery({ requestPolicy: "network-only" })
   }
 
   return (
     <Layout>
       {!fetching && data && (
-        <PlusButton onClickFunction={() => onPlusButtonClick()} />
+        <RefreshButton onClickFunction={() => onRefreshButtonClick()} />
       )}
       {fetching ? (
         <Spinner />
       ) : (
-        <div className="grid w-full gap-4 border-inherit md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid w-full gap-4 border-inherit md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
           {data && data.applicants_aggregate.nodes.length > 0 ? (
-            data.applicants_aggregate.nodes.map((item: any) => (
-              <div key={item.id} className=""></div>
-            ))
+            data.applicants_aggregate.nodes.map(
+              (item: ApplicantsAggregateNode) => (
+                <ReviewCard
+                  key={item.id}
+                  review={item}
+                  setEditMode={(editMode: boolean) => setEditMode(editMode)}
+                  setSelectedEdit={(selectedEdit: ApplicantsAggregateNode) =>
+                    setSelectedEdit(selectedEdit)
+                  }
+                  setShowEdit={(showEdit: boolean) => setShowEdit(showEdit)}
+                ></ReviewCard>
+              )
+            )
           ) : (
             <div className="relative col-span-4 flex w-min flex-col items-center justify-center justify-self-center">
               <div className="relative h-48 w-48">

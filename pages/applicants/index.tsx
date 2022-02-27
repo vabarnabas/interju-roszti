@@ -23,7 +23,7 @@ const Applicants = () => {
     query: queryAllApplicants,
   })
 
-  const { data, fetching, error } = result
+  const { data, fetching } = result
 
   const onPlusButtonClick = () => {
     setEditMode(false)

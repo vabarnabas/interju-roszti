@@ -21,9 +21,6 @@ query getAllApplicantsWithReviews{
       name
       reviews_aggregate {
         nodes {
-          communication
-          confidence
-          creativity
           id
           leadership
           note
@@ -33,10 +30,32 @@ query getAllApplicantsWithReviews{
             name
             id
           }
+          creativity
+          confidence
+          communication
+        }
+        aggregate {
+          avg {
+            communication
+            confidence
+            creativity
+            leadership
+            phraseology
+            problemsolving
+          }
         }
       }
     }
   }
 }
+`
 
+export const queryAllReviewers = `
+query getAllReviewers{
+  reviewer_aggregate {
+    nodes {
+      id
+    }
+  }
+}
 `

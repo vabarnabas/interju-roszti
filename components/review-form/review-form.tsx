@@ -1,12 +1,12 @@
 import React, { SyntheticEvent, useState } from "react"
 import { HiX, HiIdentification } from "react-icons/hi"
-import { Review } from "../../services/interfaces"
+import { ApplicantsAggregateNode } from "../../services/interfaces"
 import { BsFillKeyFill } from "react-icons/bs"
 import { MdDelete, MdLeaderboard, MdHowToVote } from "react-icons/md"
 import { RiStickyNoteFill } from "react-icons/ri"
 import { useMutation } from "urql"
 import {
-  mutationCreateApplicant,
+  mutationCreateReview,
   mutationDeleteApplicant,
   mutationUpdateApplicant,
 } from "../../services/mutations"
@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid"
 import Spinner from "../spinner/spinner"
 
 interface Props {
-  review?: Review
+  review?: ApplicantsAggregateNode
   mode: "create" | "edit"
   setter: (open: boolean) => void
   resetter: () => void
@@ -22,55 +22,46 @@ interface Props {
 
 const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
   const [, updateApplicant] = useMutation(mutationUpdateApplicant)
-  const [, createApplicant] = useMutation(mutationCreateApplicant)
+  const [, createReview] = useMutation(mutationCreateReview)
   const [, deleteApplicant] = useMutation(mutationDeleteApplicant)
 
-  const {
-    name,
-    id,
-    confidence,
-    communication,
-    phraseology,
-    leadership,
-    creativity,
-    problemsolving,
-    note,
-    verdict,
-  } = review || {}
+  const { name, id } = review || {}
 
   const [range] = useState({
     min: 1,
     max: 5,
   })
 
+  const [createId] = useState<string>(uuidv4())
+
   const [loading, setLoading] = useState(false)
 
-  const [editName, setEditName] = useState<string>(name || "")
-  const [editNote, setEditNote] = useState<string>(note || "")
-  const [editVerdict, setEditVerdict] = useState<string>(verdict || "")
+  const [editName] = useState<string>(name || "")
+  const [editNote, setEditNote] = useState<string>("")
 
-  const [editConfidence, setEditConfidence] = useState<number>(confidence || 0)
-  const [editCommunication, setEditCommunication] = useState<number>(
-    communication || 0
-  )
-  const [editPhraseology, setEditPhraseology] = useState<number>(
-    phraseology || 0
-  )
-  const [editLeadership, setEditLeadership] = useState<number>(leadership || 0)
-  const [editCreativity, setEditCreativity] = useState<number>(creativity || 0)
-  const [editProblemsolving, setEditProblemsolving] = useState<number>(
-    problemsolving || 0
-  )
-  const [createId] = useState<string>(id || uuidv4())
+  const [editConfidence, setEditConfidence] = useState<number>(0)
+  const [editCommunication, setEditCommunication] = useState<number>(0)
+  const [editPhraseology, setEditPhraseology] = useState<number>(0)
+  const [editLeadership, setEditLeadership] = useState<number>(0)
+  const [editCreativity, setEditCreativity] = useState<number>(0)
+  const [editProblemsolving, setEditProblemsolving] = useState<number>(0)
 
   const onFormSubmitWhenCreate = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
       setLoading(true)
-      await createApplicant({
+      const response = await createReview({
         object: {
-          name: editName,
           id: createId,
+          applicantid: id,
+          communication: editCommunication,
+          confidence: editConfidence,
+          creativity: editCreativity,
+          leadership: editLeadership,
+          phraseology: editPhraseology,
+          problemsolving: editProblemsolving,
+          reviewerid: localStorage.getItem("rosztiToken"),
+          note: editNote,
         },
       })
     } finally {
@@ -141,7 +132,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
               placeholder=""
               value={createId}
               type="text"
-              className="form-input border-transparent bg-zinc-800"
+              className="form-input bg-slate-200 dark:bg-zinc-800"
               required
               disabled
             />
@@ -157,7 +148,7 @@ const ReviewForm: React.FC<Props> = ({ review, setter, resetter, mode }) => {
               placeholder=""
               value={editName}
               type="text"
-              className="form-input border-transparent bg-zinc-800"
+              className="form-input bg-slate-200 dark:bg-zinc-800"
               required
               disabled
             />

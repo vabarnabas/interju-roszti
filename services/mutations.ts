@@ -24,3 +24,12 @@ mutation DeleteApplicant($id: uuid = "") {
   }
 }
 `
+export const mutationCreateReview = `
+mutation MyMutation($object: reviews_insert_input = {applicantid: "", communication: 0, confidence: 0, creativity: 0, id: "", leadership: 0, note: "", phraseology: 0, problemsolving: 0, reviewerid: ""}) {
+  insert_reviews_one(object: $object) {
+    id
+    applicantid
+    reviewerid
+  }
+}
+`
