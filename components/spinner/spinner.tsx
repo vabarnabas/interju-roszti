@@ -3,7 +3,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 const Spinner = () => {
   return (
-    <AiOutlineLoading3Quarters className="animate-spin justify-self-center text-5xl" />
+    <AiOutlineLoading3Quarters className="animate-spin self-center justify-self-center text-5xl" />
   )
 }
 

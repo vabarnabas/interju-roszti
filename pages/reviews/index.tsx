@@ -33,7 +33,7 @@ const Reviews = () => {
       {fetching ? (
         <Spinner />
       ) : (
-        <div className="grid w-full gap-4 border-inherit py-6 md:grid-cols-2 md:py-0 lg:grid-cols-2 xl:grid-cols-4">
+        <div className="grid h-min w-full gap-4 border-inherit pt-6 pb-24 md:grid-cols-2 md:py-0 lg:grid-cols-2 xl:grid-cols-4">
           {data && data.applicants_aggregate.nodes.length > 0 ? (
             data.applicants_aggregate.nodes.map(
               (item: ApplicantsAggregateNode) => (
