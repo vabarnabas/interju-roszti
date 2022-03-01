@@ -88,7 +88,6 @@ const ReviewCard: React.FC<Props> = ({
           onClick={async () => {
             try {
               await getSpecificReview({ requestPolicy: "network-only" })
-              console.log(data)
             } finally {
               setEditMode(false)
               setSelectedEdit(review)

@@ -42,8 +42,6 @@ const ReviewForm: React.FC<Props> = ({
     max: 5,
   })
 
-  console.log(review)
-
   const [createId] = useState<string>(review?.id || uuidv4())
 
   const [loading, setLoading] = useState(false)
